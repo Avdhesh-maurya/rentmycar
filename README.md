@@ -279,10 +279,3 @@ Click "Deploy" and wait for the build to complete. Your app will be live at `htt
 - Update dependencies regularly
 - Back up your MongoDB data
 
-## License
-
-This project is open source and available under the MIT License.
-
-## Support
-
-For support, email your-email@example.com or create an issue in the repository.
