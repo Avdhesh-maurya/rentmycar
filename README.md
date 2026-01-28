@@ -1,6 +1,6 @@
-# Car Rental Fullstack Application
+# RentMyCar - Car Rental Platform
 
-A modern, full-stack car rental platform built with React, Node.js, Express, and MongoDB. This application allows users to browse and book cars, while car owners can manage their fleet and bookings through a dedicated dashboard.
+A full-stack car rental application built with React, Express, and MongoDB.
 
 ## Features
 
@@ -42,7 +42,7 @@ A modern, full-stack car rental platform built with React, Node.js, Express, and
 ## Project Structure
 
 ```
-CarRental-fullstack/
+rentmycar/
 ├── client/                 # Frontend React application
 │   ├── src/
 │   │   ├── components/    # Reusable UI components
@@ -51,18 +51,22 @@ CarRental-fullstack/
 │   │   └── assets/        # Static assets
 │   └── public/            # Public assets
 │
-└── server/                # Backend Node.js application
-    ├── configs/           # Configuration files (DB, ImageKit)
-    ├── controllers/       # Request handlers
-    ├── models/            # Mongoose models
-    ├── routes/            # API routes
-    └── middleware/        # Custom middleware (auth, multer)
+├── server/                # Backend Node.js application
+│   ├── configs/           # Configuration files (DB, ImageKit)
+│   ├── controllers/       # Request handlers
+│   ├── models/            # Mongoose models
+│   ├── routes/            # API routes
+│   └── middleware/        # Custom middleware (auth, multer)
+│
+├── render.yaml            # Render deployment config
+├── Procfile               # Process file for Render
+└── .env.example           # Environment variables template
 ```
 
 ## Installation & Setup
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js 18.x or higher
 - MongoDB Atlas account or local MongoDB
 - ImageKit account for image storage
 
@@ -85,6 +89,9 @@ JWT_SECRET=your_jwt_secret
 IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
 IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
 IMAGEKIT_URL_ENDPOINT=your_imagekit_url_endpoint
+CLIENT_URL=http://localhost:5173
+PORT=3000
+NODE_ENV=development
 ```
 
 4. Start the server:
@@ -196,6 +203,81 @@ The application uses JWT (JSON Web Tokens) for authentication:
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## Deployment on Render
+
+### Prerequisites
+- GitHub account with your repository
+- Render account (https://render.com)
+- MongoDB Atlas account (for cloud database)
+- ImageKit account (for image management)
+
+### Step-by-Step Deployment Guide
+
+#### 1. Prepare Your Repository
+Ensure your code is pushed to GitHub:
+```bash
+git add .
+git commit -m "Prepare for Render deployment"
+git push origin main
+```
+
+#### 2. Configure MongoDB Atlas
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Create a cluster and database
+3. Get your connection string (with credentials)
+4. Add Render's IP address to the IP whitelist (0.0.0.0/0 for testing)
+
+#### 3. Create Render Service
+1. Visit [Render Dashboard](https://dashboard.render.com)
+2. Click "New +" → "Web Service"
+3. Connect your GitHub repository
+4. Select your repository and main branch
+
+#### 4. Configure the Service
+Fill in the following details:
+
+- **Name:** `rentmycar-server`
+- **Environment:** `Node`
+- **Region:** Select closest to your users
+- **Build Command:** 
+  ```bash
+  npm install && npm run build --prefix client && npm install --prefix server
+  ```
+- **Start Command:** 
+  ```bash
+  node server/server.js
+  ```
+
+#### 5. Add Environment Variables
+In Render dashboard, go to **Environment** section and add:
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `MONGODB_URI` | Your MongoDB Atlas connection string | Database connection |
+| `JWT_SECRET` | A strong random string | JWT secret key |
+| `IMAGEKIT_PUBLIC_KEY` | Your ImageKit public key | Image upload |
+| `IMAGEKIT_PRIVATE_KEY` | Your ImageKit private key | Image upload |
+| `IMAGEKIT_URL_ENDPOINT` | Your ImageKit URL endpoint | Image delivery |
+| `CLIENT_URL` | Your Render app URL | Frontend URL for CORS |
+| `NODE_ENV` | `production` | Environment mode |
+| `PORT` | `3000` | Server port |
+
+#### 6. Deploy
+Click "Deploy" and wait for the build to complete. Your app will be live at `https://your-app-name.onrender.com`
+
+### Important Notes
+- **Free Tier:** Services spin down after 15 minutes of inactivity. Use paid tier for production
+- **Build Time:** First deployment takes 5-10 minutes
+- **Logs:** Check deployment logs in Render dashboard for any errors
+- **CORS:** Update `CLIENT_URL` in environment variables after getting your Render URL
+- **MongoDB Access:** Whitelist Render's IP address in MongoDB Atlas security settings
+
+### Monitoring and Maintenance
+- Check logs in Render dashboard
+- Monitor error rates and performance
+- Update dependencies regularly
+- Back up your MongoDB data
 
 ## License
 

@@ -1,0 +1,18 @@
+{
+  "name": "rentmycar",
+  "version": "1.0.0",
+  "description": "Rent my car application",
+  "main": "server/server.js",
+  "scripts": {
+    "build": "npm run build --prefix client && npm install --prefix server",
+    "start": "node server/server.js",
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run server --prefix server\"",
+    "server": "npm run server --prefix server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": "18.x"
+  }
+}
