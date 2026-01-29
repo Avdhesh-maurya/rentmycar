@@ -117,14 +117,11 @@ npm install
 
 3. Create `.env` file in the client directory:
 ```env
-# For local development
 VITE_BASE_URL=http://localhost:3000
-
-# For production (backend deployed on Vercel)
-# VITE_BASE_URL=https://rent-chi-eight.vercel.app
-
 VITE_CURRENCY=$
 ```
+
+**For Production:** Update `VITE_BASE_URL` to `https://rent-chi-eight.vercel.app` to connect to the deployed backend.
 
 **Note:** See [Frontend Configuration Guide](client/FRONTEND_CONFIGURATION.md) for detailed configuration options and troubleshooting.
 

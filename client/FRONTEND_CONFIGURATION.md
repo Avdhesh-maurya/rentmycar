@@ -17,31 +17,23 @@ Depending on your frontend framework and HTTP client, you'll need to update the 
 #### 1. **Environment Variables** (Recommended)
 Create or update your frontend's `.env` file based on your framework:
 
-**For Vite-based projects** (Vite, Vue, etc.):
+**For Vite-based projects** (like this project):
 ```env
-VITE_API_URL=https://rent-chi-eight.vercel.app
+VITE_BASE_URL=https://rent-chi-eight.vercel.app
 ```
 
-**For Create React App:**
-```env
-REACT_APP_API_URL=https://rent-chi-eight.vercel.app
-```
-
-**For Next.js:**
-```env
-NEXT_PUBLIC_API_URL=https://rent-chi-eight.vercel.app
-```
+**For other frameworks** (if you're adapting this guide):
+- Create React App: `REACT_APP_API_URL=https://rent-chi-eight.vercel.app`
+- Next.js: `NEXT_PUBLIC_API_URL=https://rent-chi-eight.vercel.app`
 
 Then use it in your API client:
 ```javascript
-// For Vite
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// For Vite (used in this project)
+const API_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
 
-// For Create React App
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
-
-// For Next.js
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+// For other frameworks
+// Create React App: process.env.REACT_APP_API_URL
+// Next.js: process.env.NEXT_PUBLIC_API_URL
 ```
 
 #### 2. **Axios Configuration**
@@ -52,7 +44,8 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://rent-chi-eight.vercel.app',
-  withCredentials: true
+  // Note: withCredentials is only needed if using cookies for authentication
+  // This project uses JWT tokens in headers, so it's not required
 });
 
 export default api;
@@ -77,12 +70,16 @@ fetch(`${API_BASE_URL}/api/user/login`, {
 Create a `config.js` or `constants.js` file:
 
 ```javascript
+// For Vite projects
 export const API_CONFIG = {
-  baseURL: process.env.NODE_ENV === 'production' 
+  baseURL: import.meta.env.MODE === 'production' 
     ? 'https://rent-chi-eight.vercel.app'
     : 'http://localhost:3000',
   timeout: 10000,
 };
+
+// For Create React App or Node.js
+// Use process.env.NODE_ENV instead of import.meta.env.MODE
 ```
 
 ## Current Configuration (This Project)
@@ -94,6 +91,10 @@ This project uses **Vite** with **Axios**. The configuration is set in:
 VITE_BASE_URL=https://rent-chi-eight.vercel.app
 VITE_CURRENCY=$
 ```
+
+> **Note:** The `.env` file in this project is tracked in git for deployment purposes. 
+> For local development, you can modify it to point to `http://localhost:3000`.
+> In a typical project, `.env` would be gitignored and only `.env.example` would be committed.
 
 **File:** `client/src/context/AppContext.jsx`
 ```javascript
