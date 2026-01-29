@@ -117,9 +117,16 @@ npm install
 
 3. Create `.env` file in the client directory:
 ```env
+# For local development
 VITE_BASE_URL=http://localhost:3000
+
+# For production (backend deployed on Vercel)
+# VITE_BASE_URL=https://rent-chi-eight.vercel.app
+
 VITE_CURRENCY=$
 ```
+
+**Note:** See [Frontend Configuration Guide](client/FRONTEND_CONFIGURATION.md) for detailed configuration options and troubleshooting.
 
 4. Start the development server:
 ```bash
@@ -156,10 +163,15 @@ The client will run on `http://localhost:5173`
 - `IMAGEKIT_PUBLIC_KEY` - ImageKit public key
 - `IMAGEKIT_PRIVATE_KEY` - ImageKit private key
 - `IMAGEKIT_URL_ENDPOINT` - ImageKit URL endpoint
+- `CLIENT_URL` - Frontend URL for CORS (e.g., http://localhost:5173 for development)
 
 ### Client (.env)
 - `VITE_BASE_URL` - Backend API URL
+  - Development: `http://localhost:3000`
+  - Production: `https://rent-chi-eight.vercel.app` (Vercel deployment)
 - `VITE_CURRENCY` - Currency symbol for pricing
+
+**See [Frontend Configuration Guide](client/FRONTEND_CONFIGURATION.md) for detailed setup instructions.**
 
 ## Usage
 
